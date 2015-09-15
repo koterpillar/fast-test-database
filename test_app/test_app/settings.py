@@ -2,6 +2,9 @@
 Django settings for the test project.
 """
 
+from __future__ import print_function
+
+import json
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,3 +25,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Print the database configuration for testing
+print("--- database configuration ---")
+print(json.dumps(DATABASES))
+print("--- end database configuration ---")

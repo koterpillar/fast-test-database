@@ -9,6 +9,8 @@ Usage
 In `settings.py`:
 
 ```python
+from fast_test_database import fast_test_database
+
 DATABASES = fast_test_database(DATABASES)
 ```
 
