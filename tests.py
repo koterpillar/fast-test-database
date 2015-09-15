@@ -15,8 +15,8 @@ import subprocess
 import unittest
 
 
-class TestFastDatabase(unittest.TestCase):
-    """Test supplying the fast database."""
+class IntegrationTest(unittest.TestCase):
+    """Test supplying the fast database to the test application."""
 
     TEST_APP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 'test_app')
@@ -26,8 +26,13 @@ class TestFastDatabase(unittest.TestCase):
         Run manage.py of the test application with the specified arguments.
         """
 
-        return subprocess.check_output(('./test_app/manage.py',) + args)\
-            .decode().strip()
+        previous_wd = os.getcwd()
+        os.chdir('test_app')
+        try:
+            return subprocess.check_output(('./manage.py',) + args)\
+                .decode().strip()
+        finally:
+            os.chdir(previous_wd)
 
     def database_config(self, output):
         """
@@ -50,5 +55,18 @@ class TestFastDatabase(unittest.TestCase):
             'default': {
                 'ENGINE': 'django.db.backends.sqlite3',
                 'NAME': os.path.join(self.TEST_APP_DIR, 'db.sqlite3'),
+            },
+        })
+
+    def test_fast_database(self):
+        """Test the supplied fast database."""
+
+        config = self.database_config(self.run_manage('test', '--noinput'))
+        self.assertEqual(config, {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'test_postgres',
+                'USER': 'postgres',
+                'PASSWORD': 'test_password',
             },
         })
