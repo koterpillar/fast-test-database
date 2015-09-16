@@ -12,7 +12,70 @@ standard_library.install_aliases()
 import json
 import os
 import subprocess
+import sys
 import unittest
+from contextlib import contextmanager
+
+import psycopg2
+
+from fast_test_database import fast_test_database
+
+
+PG_ENGINE = 'django.db.backends.postgresql_psycopg2'
+SQLITE_ENGINE = 'django.db.backends.sqlite3'
+
+
+class FastDatabaseTest(unittest.TestCase):
+    """Test calling fast_test_database."""
+
+    ORIGINAL_DATABASES = {
+        'default': {
+            'ENGINE': SQLITE_ENGINE,
+            'NAME': '/some/db.sqlite3',
+        }
+    }
+
+    @contextmanager
+    def mock_sys_argv(self, *args):
+        """Mock sys.argv for the life of the context manager."""
+
+        original_argv = sys.argv
+        sys.argv = list(args)
+        try:
+            yield
+        finally:
+            sys.argv = original_argv
+
+    def test_normal_run(self):
+        """Test calling fast_test_database while not inside tests."""
+
+        with self.mock_sys_argv('python', './manage.py', 'runserver'):
+            databases = fast_test_database(self.ORIGINAL_DATABASES)
+
+        self.assertEqual(databases, self.ORIGINAL_DATABASES)
+
+    def test_change_db(self):
+        """Test calling fast_test_database inside tests."""
+
+        with self.mock_sys_argv('python', './manage.py', 'test'):
+            databases = fast_test_database(self.ORIGINAL_DATABASES)
+
+        self.assertEqual(databases['default']['ENGINE'], PG_ENGINE)
+
+        # Try connecting to it
+
+        default_db = databases['default']
+        conn = psycopg2.connect(
+            database=default_db['NAME'],
+            user=default_db['USER'],
+            password=default_db['PASS'],
+            host=default_db['HOST'],
+            port=default_db['PORT'],
+        )
+        cur = conn.cursor()
+        cur.execute('SELECT VERSION()')
+        pg_version = cur.fetchone()
+        self.assertEqual(pg_version, '9.5')
 
 
 class IntegrationTest(unittest.TestCase):
@@ -27,6 +90,7 @@ class IntegrationTest(unittest.TestCase):
         """
 
         previous_wd = os.getcwd()
+        os.environ['PYTHONPATH'] = previous_wd
         os.chdir('test_app')
         try:
             return subprocess.check_output(('./manage.py',) + args)\
@@ -53,7 +117,7 @@ class IntegrationTest(unittest.TestCase):
         config = self.database_config(self.run_manage('check'))
         self.assertEqual(config, {
             'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
+                'ENGINE': SQLITE_ENGINE,
                 'NAME': os.path.join(self.TEST_APP_DIR, 'db.sqlite3'),
             },
         })
@@ -64,7 +128,7 @@ class IntegrationTest(unittest.TestCase):
         config = self.database_config(self.run_manage('test', '--noinput'))
         self.assertEqual(config, {
             'default': {
-                'ENGINE': 'django.db.backends.postgresql',
+                'ENGINE': PG_ENGINE,
                 'NAME': 'test_postgres',
                 'USER': 'postgres',
                 'PASSWORD': 'test_password',
