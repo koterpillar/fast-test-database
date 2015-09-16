@@ -2,6 +2,7 @@
 Fast test database - main module.
 """
 
+import os
 import subprocess
 import sys
 from copy import copy
@@ -35,14 +36,17 @@ def fast_test_database(databases):
     # TODO: Randomize password
     password = 'fast_database'
 
+    # TODO: check if this is always tmpfs
+    volume_root = '/run/user/{0}/{1}'.format(os.getuid(), container_name)
+
     try:
         docker('inspect', container_name)
     except subprocess.CalledProcessError:
-        # TODO: find tmpfs
         docker(
             'run',
             '-d',
             '-e', 'POSTGRES_PASSWORD=' + password,
+            '-v', volume_root + ':/var/lib/postgresql/data',
             '-P',
             '--name', container_name,
             IMAGE,
