@@ -25,7 +25,40 @@ PG_ENGINE = 'django.db.backends.postgresql_psycopg2'
 SQLITE_ENGINE = 'django.db.backends.sqlite3'
 
 
-class FastDatabaseTest(unittest.TestCase):
+class TestCase(unittest.TestCase):
+    """Base test case."""
+
+    def assert_postgres(self, database):
+        """
+        Verify that the specified dict is for a valid PostgreSQL database
+        connection.
+        """
+
+        self.assertEqual(
+            database['ENGINE'],
+            PG_ENGINE,
+            "Engine must be {0}, not {1}.".format(
+                PG_ENGINE, database['ENGINE'])
+        )
+
+        # Try connecting to it
+        conn = psycopg2.connect(
+            database=database['NAME'],
+            user=database['USER'],
+            password=database['PASSWORD'],
+            host=database['HOST'],
+            port=database['PORT'],
+        )
+        cur = conn.cursor()
+        cur.execute('SELECT VERSION()')
+        (pg_version,) = cur.fetchone()
+        self.assertTrue(
+            pg_version.startswith('PostgreSQL 9'),
+            "PostgreSQL 9 expected, got {0}".format(pg_version)
+        )
+
+
+class FastDatabaseTest(TestCase):
     """Test calling fast_test_database."""
 
     ORIGINAL_DATABASES = {
@@ -60,25 +93,10 @@ class FastDatabaseTest(unittest.TestCase):
         with self.mock_sys_argv('python', './manage.py', 'test'):
             databases = fast_test_database(self.ORIGINAL_DATABASES)
 
-        self.assertEqual(databases['default']['ENGINE'], PG_ENGINE)
-
-        # Try connecting to it
-
-        default_db = databases['default']
-        conn = psycopg2.connect(
-            database=default_db['NAME'],
-            user=default_db['USER'],
-            password=default_db['PASSWORD'],
-            host=default_db['HOST'],
-            port=default_db['PORT'],
-        )
-        cur = conn.cursor()
-        cur.execute('SELECT VERSION()')
-        (pg_version,) = cur.fetchone()
-        self.assertTrue(pg_version.startswith('PostgreSQL 9'))
+        self.assert_postgres(databases['default'])
 
 
-class IntegrationTest(unittest.TestCase):
+class IntegrationTest(TestCase):
     """Test supplying the fast database to the test application."""
 
     TEST_APP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -126,11 +144,5 @@ class IntegrationTest(unittest.TestCase):
         """Test the supplied fast database."""
 
         config = self.database_config(self.run_manage('test', '--noinput'))
-        self.assertEqual(config, {
-            'default': {
-                'ENGINE': PG_ENGINE,
-                'NAME': 'postgres',
-                'USER': 'postgres',
-                'PASSWORD': 'fast_database',
-            },
-        })
+
+        self.assert_postgres(config['default'])
