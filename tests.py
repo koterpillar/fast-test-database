@@ -68,14 +68,14 @@ class FastDatabaseTest(unittest.TestCase):
         conn = psycopg2.connect(
             database=default_db['NAME'],
             user=default_db['USER'],
-            password=default_db['PASS'],
+            password=default_db['PASSWORD'],
             host=default_db['HOST'],
             port=default_db['PORT'],
         )
         cur = conn.cursor()
         cur.execute('SELECT VERSION()')
-        pg_version = cur.fetchone()
-        self.assertEqual(pg_version, '9.5')
+        (pg_version,) = cur.fetchone()
+        self.assertTrue(pg_version.startswith('PostgreSQL 9'))
 
 
 class IntegrationTest(unittest.TestCase):
@@ -129,8 +129,8 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(config, {
             'default': {
                 'ENGINE': PG_ENGINE,
-                'NAME': 'test_postgres',
+                'NAME': 'postgres',
                 'USER': 'postgres',
-                'PASSWORD': 'test_password',
+                'PASSWORD': 'fast_database',
             },
         })
