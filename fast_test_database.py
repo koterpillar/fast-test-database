@@ -53,6 +53,7 @@ def fast_test_database(databases, test_commands=('test',)):
         sleep(10)
 
     host, port = docker('port', container_name, str(PORT)).split(':')
+    port = int(port)
 
     databases = copy(databases)
     databases['default'] = {
