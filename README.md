@@ -12,6 +12,10 @@ In `settings.py`:
 from fast_test_database import fast_test_database
 
 DATABASES = fast_test_database(DATABASES)
+
+# Or:
+DATABASES = fast_test_database(DATABASES,
+                               test_commands=('test', 'harvest'))
 ```
 
 This will be a no-op except for `./manage.py test`, when an in-memory database
