@@ -18,13 +18,11 @@ def docker(*args):
     return subprocess.check_output(('docker',) + args).decode().strip()
 
 
-def fast_test_database(databases):
+def fast_test_database(databases, test_commands=('test',)):
     """
     If running tests, start a database on a tmpfs and set it as the default
     connection.
     """
-
-    test_commands = ('test',)
 
     if not any(test_command in sys.argv for test_command in test_commands):
         # Not under test, leave connections alone
