@@ -3,3 +3,4 @@ __pycache__
 /.eggs
 /build/
 /dist/
+/fast_test_database.egg-info
