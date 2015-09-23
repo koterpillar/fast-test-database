@@ -2,6 +2,7 @@
 Fast test database - main module.
 """
 
+import json
 import os
 import subprocess
 import sys
@@ -38,8 +39,18 @@ def fast_test_database(databases, test_commands=('test',)):
     volume_root = '/run/user/{0}/{1}'.format(os.getuid(), container_name)
 
     try:
-        docker('inspect', container_name)
-    except subprocess.CalledProcessError:
+        container = json.loads(docker('inspect', container_name))
+        available = container[0]['State']['Running']
+    except (IndexError, KeyError, ValueError, subprocess.CalledProcessError):
+        available = False
+
+    if not available:
+        # Delete the old container in case it's stopped
+        try:
+            docker('rm', '-f', container_name)
+        except subprocess.CalledProcessError:
+            pass
+
         docker(
             'run',
             '-d',
