@@ -21,12 +21,7 @@ ROOT_URLCONF = 'test_app.urls'
 
 WSGI_APPLICATION = 'test_app.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = json.loads(os.environ['DATABASES'])
 
 DATABASES = fast_test_database(DATABASES)
 
