@@ -1,4 +1,6 @@
 future
+mysqlclient
 pep8
+psycopg2
 pylint
 pylint-mccabe

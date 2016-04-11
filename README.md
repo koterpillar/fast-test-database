@@ -1,7 +1,7 @@
 Fast test database
 ==================
 
-Use a pure in-memory database for running Django tests
+Use a pure in-memory database for running Django tests.
 
 Usage
 -----
@@ -24,7 +24,10 @@ will be automatically started and supplied to the application.
 Details
 -------
 
-The in-memory database is a full PostgreSQL instance started using Docker,
-using tmpfs for storing the data. A single container will be started if not yet
-running. It will not be shut down automatically, and instead reused for
-subsequent tests.
+The in-memory database is a full PostgreSQL or MySQL instance started using
+Docker, using tmpfs for storing the data. A single container will be started
+if not yet running. It will not be shut down automatically, and instead reused
+for subsequent tests.
+
+The type of the database (PostgreSQL or MySQL) is chosen based on the existing
+default database engine.
