@@ -59,16 +59,12 @@ class DatabaseProvider(object):
             except subprocess.CalledProcessError:
                 pass
 
-            # TODO: check if this is always tmpfs
-            volume_root = '/run/user/{0}/{1}'.format(
-                os.getuid(), self.container_name)
-
             docker(
                 'run',
-                '-d',
-                '-e', '{}={}'.format(self.PASSWORD_ENV_VAR, password),
-                '-v', '{}:{}'.format(volume_root, self.DATA_DIR),
-                '-P',
+                '--detach',
+                '--env', '{}={}'.format(self.PASSWORD_ENV_VAR, password),
+                '--tmpfs={}'.format(self.DATA_DIR),
+                '--publish', str(self.PORT),
                 '--name', self.container_name,
                 self.IMAGE,
             )
