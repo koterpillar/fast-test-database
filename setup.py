@@ -13,7 +13,7 @@ if __name__ == '__main__':
             open('README.rst') as readme:
         setup(
             name='fast_test_database',
-            version=__version__,
+            use_scm_version=True,
             description=(
                 'Configure an in-memory database for running Django tests'
             ),
