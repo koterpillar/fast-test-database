@@ -1,6 +1,7 @@
 __pycache__
 *.pyc
 /.eggs
+/.tox
 /build/
 /dist/
 /fast_test_database.egg-info

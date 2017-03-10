@@ -2,5 +2,4 @@ future
 mysqlclient
 psycopg2
 pycodestyle
-pylint
-pylint-mccabe
+setuptools-scm
