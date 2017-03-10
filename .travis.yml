@@ -1,0 +1,13 @@
+sudo: required
+services:
+  - docker
+
+env:
+  - TOXENV=py27
+  - TOXENV=py35
+
+install:
+  - pip install tox
+
+script:
+  tox
