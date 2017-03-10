@@ -1,6 +1,12 @@
 sudo: required
+
 services:
   - docker
+
+cache:
+  directories:
+    - .tox/py27
+    - .tox/py35
 
 env:
   - TOXENV=py27
