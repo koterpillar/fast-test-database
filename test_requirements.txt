@@ -1,6 +1,6 @@
 future
 mysqlclient
-pep8
 psycopg2
+pycodestyle
 pylint
 pylint-mccabe
