@@ -2,8 +2,6 @@
 Setup script.
 """
 
-__version__ = '0.0.1'
-
 from setuptools import setup, find_packages
 
 if __name__ == '__main__':
