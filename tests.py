@@ -23,7 +23,8 @@ import psycopg2
 from fast_test_database import fast_test_database
 
 
-PG_ENGINE = 'django.db.backends.postgresql_psycopg2'
+PG_ENGINE = 'django.db.backends.postgresql'
+PG_ENGINE_OLD = 'django.db.backends.postgresql_psycopg2'
 MYSQL_ENGINE = 'django.db.backends.mysql'
 SQLITE_ENGINE = 'django.db.backends.sqlite3'
 
@@ -44,6 +45,13 @@ MYSQL_SETTINGS = {
 PG_SETTINGS = {
     'default': {
         'ENGINE': PG_ENGINE,
+        'NAME': 'some',
+    },
+}
+
+PG_SETTINGS_OLD = {
+    'default': {
+        'ENGINE': PG_ENGINE_OLD,
         'NAME': 'some',
     },
 }
@@ -73,13 +81,15 @@ class TestCase(unittest.TestCase):
         (version,) = cur.fetchone()
         return version
 
-    def assert_postgres(self, database):
+    def assert_postgres(self, database, engine=None):
         """
         Verify that the specified dict is for a valid PostgreSQL database
         connection.
+
+        :param engine: The expected PostgreSQL engine
         """
 
-        self.assert_engine(PG_ENGINE, database)
+        self.assert_engine(engine or PG_ENGINE, database)
 
         # Try connecting to it
         conn = psycopg2.connect(
@@ -174,6 +184,18 @@ class FastDatabaseTest(TestCase):
             databases = fast_test_database(PG_SETTINGS)
 
         self.assert_postgres(databases['default'])
+
+    def test_change_db_postgres_old(self):
+        """
+        Test calling fast_test_database inside tests with PostgreSQL
+        configured using the old backend alias.
+        """
+
+        with self.mock_sys_argv('python', './manage.py', 'test'):
+            databases = fast_test_database(PG_SETTINGS_OLD)
+
+        self.assert_postgres(databases['default'],
+                             engine=PG_ENGINE_OLD)
 
 
 class IntegrationTest(TestCase):

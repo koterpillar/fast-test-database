@@ -24,7 +24,7 @@ class DatabaseProvider(object):
     PORT = None
     PASSWORD_ENV_VAR = None
     DATA_DIR = None
-    ENGINE = None
+    ENGINE_MATCH = None
     USER = None
     DATABASE = None
 
@@ -33,10 +33,10 @@ class DatabaseProvider(object):
         """The Docker container name."""
         return 'fast_database_{}_{}'.format(
             os.path.basename(os.getcwd()),
-            self.ENGINE.rsplit('.', 1)[1],
+            self.IMAGE.split(':', 1)[0],
         )
 
-    def provide(self):
+    def provide(self, engine):
         """
         Ensure an instance of the database is started.
 
@@ -76,7 +76,7 @@ class DatabaseProvider(object):
         port = int(port)
 
         return {
-            'ENGINE': self.ENGINE,
+            'ENGINE': engine,
             'NAME': self.DATABASE,
             'USER': self.USER,
             'PASSWORD': password,
@@ -92,7 +92,7 @@ class PostgreSQL(DatabaseProvider):
     PORT = 5432
     PASSWORD_ENV_VAR = 'POSTGRES_PASSWORD'
     DATA_DIR = '/var/lib/postgresql/data'
-    ENGINE = 'django.db.backends.postgresql_psycopg2'
+    ENGINE_MATCH = 'postgresql'
     USER = 'postgres'
     DATABASE = 'postgres'
 
@@ -104,18 +104,18 @@ class MySQL(DatabaseProvider):
     PORT = 3306
     PASSWORD_ENV_VAR = 'MYSQL_ROOT_PASSWORD'
     DATA_DIR = '/var/lib/mysql'
-    ENGINE = 'django.db.backends.mysql'
+    ENGINE_MATCH = 'mysql'
     USER = 'root'
     DATABASE = 'mysql'  # TODO: is this correct?
 
 
-PROVIDERS = {
-    provider.ENGINE: provider
-    for provider in [
+PROVIDERS = [
+    (provider_.ENGINE_MATCH, provider_)
+    for provider_ in [
         MySQL,
         PostgreSQL,
     ]
-}
+]
 
 
 def fast_test_database(databases, test_commands=('test',)):
@@ -128,13 +128,19 @@ def fast_test_database(databases, test_commands=('test',)):
         # Not under test, leave connections alone
         return databases
 
-    database_type = databases['default']['ENGINE']
+    engine = databases['default']['ENGINE']
 
-    if database_type not in PROVIDERS:
+    match = None
+    for engine_match, provider in PROVIDERS:
+        if engine_match in engine:
+            match = provider
+            break
+
+    if not match:
         return databases
 
     databases = copy(databases)
-    databases['default'] = PROVIDERS[database_type]().provide()
+    databases['default'] = match().provide(engine)
     return databases
 
 
