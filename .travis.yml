@@ -18,7 +18,7 @@ cache:
     - .tox/py35
 
 install:
-  - pip install --user tox
+  - pip install tox
 
 script:
   tox
