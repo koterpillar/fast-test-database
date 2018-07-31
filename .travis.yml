@@ -3,12 +3,11 @@ sudo: required
 services:
   - docker
 
-addons:
-  apt:
-    sources:
-      - deadsnakes
-    packages:
-      - python3.5
+matrix:
+  include:
+    - python: 3.5
+      env:
+      - TOXENV=py35
 
 cache:
   directories:
