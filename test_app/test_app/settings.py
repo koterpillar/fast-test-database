@@ -23,7 +23,15 @@ WSGI_APPLICATION = 'test_app.wsgi.application'
 
 DATABASES = json.loads(os.environ['DATABASES'])
 
-DATABASES = fast_test_database(DATABASES)
+version = None
+engine = DATABASES['default']['ENGINE']
+
+if 'mysql' in engine:
+    version = '5.7'
+elif 'postgresql' in engine:
+    version = '9.5'
+
+DATABASES = fast_test_database(DATABASES, version=version)
 
 # Print the database configuration for testing
 print("--- database configuration ---")

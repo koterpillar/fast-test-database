@@ -28,13 +28,25 @@ class DatabaseProvider(object):
     USER = None
     DATABASE = None
 
+    def __init__(self, version=None):
+        self.version = version
+
     @property
     def container_name(self):
         """The Docker container name."""
         return 'fast_database_{}_{}'.format(
             os.path.basename(os.getcwd()),
-            self.IMAGE.split(':', 1)[0],
+            self.image.replace(':', '-'),
         )
+
+    @property
+    def image(self):
+        image_ = self.IMAGE[:]
+
+        if self.version:
+            image_ = image_.replace(':latest', ':{}'.format(self.version))
+
+        return image_
 
     def provide(self, engine):
         """
@@ -66,7 +78,7 @@ class DatabaseProvider(object):
                 '--tmpfs={}'.format(self.DATA_DIR),
                 '--publish', str(self.PORT),
                 '--name', self.container_name,
-                self.IMAGE,
+                self.image,
             )
             # Give it time to start
             sleep(10)
@@ -118,7 +130,7 @@ PROVIDERS = [
 ]
 
 
-def fast_test_database(databases, test_commands=('test',)):
+def fast_test_database(databases, test_commands=('test',), version=None):
     """
     If running tests, start a database on a tmpfs and set it as the default
     connection.
@@ -140,7 +152,7 @@ def fast_test_database(databases, test_commands=('test',)):
         return databases
 
     databases = copy(databases)
-    databases['default'] = match().provide(engine)
+    databases['default'] = match(version).provide(engine)
     return databases
 
 
