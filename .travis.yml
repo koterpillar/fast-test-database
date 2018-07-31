@@ -13,7 +13,7 @@ env:
   - TOXENV=py35
 
 install:
-  - pip install tox
+  - pip install --user tox
 
 script:
   tox
