@@ -20,7 +20,7 @@ if __name__ == '__main__':
             url='https://github.com/koterpillar/fast-test-database',
             long_description=readme.read(),
             classifiers=[
-                'License :: OSI Approved :: ' +
+                'License :: OSI Approved :: '
                 'GNU General Public License v3 or later (GPLv3+)',
                 'Programming Language :: Python',
                 'Programming Language :: Python :: 2',
