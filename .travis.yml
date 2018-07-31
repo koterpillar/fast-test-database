@@ -3,20 +3,19 @@ sudo: required
 services:
   - docker
 
+language: python
+
 matrix:
   include:
+    - python: 2.7
+      env: TOXENV=py27
     - python: 3.5
-      env:
-      - TOXENV=py35
+      env: TOXENV=py35
 
 cache:
   directories:
     - .tox/py27
     - .tox/py35
-
-env:
-  - TOXENV=py27
-  - TOXENV=py35
 
 install:
   - pip install --user tox
