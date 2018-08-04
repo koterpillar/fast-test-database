@@ -18,6 +18,10 @@ In ``settings.py``:
     DATABASES = fast_test_database(DATABASES,
                                    test_commands=('test', 'harvest'))
 
+    # Or:
+    DATABASES = fast_test_database(DATABASES,
+                                   version='5.7')
+
 This will be a no-op except for ``./manage.py test``, when an in-memory
 database will be automatically started and supplied to the application.
 
@@ -31,3 +35,6 @@ and instead reused for subsequent tests.
 
 The type of the database (PostgreSQL or MySQL) is chosen based on the
 existing default database engine.
+
+The default version of the database (PostgreSQL or MySQL) is latest.
+But it can be specified by version parameter.
