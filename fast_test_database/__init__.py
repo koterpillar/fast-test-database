@@ -28,12 +28,23 @@ class DatabaseProvider(object):
     USER = None
     DATABASE = None
 
+    def __init__(self, version=None):
+        self.version = version
+
     @property
     def container_name(self):
         """The Docker container name."""
         return 'fast_database_{}_{}'.format(
             os.path.basename(os.getcwd()),
-            self.IMAGE.split(':', 1)[0],
+            self.image.replace(':', '-'),
+        )
+
+    @property
+    def image(self):
+        """The Docker image."""
+        return '{}:{}'.format(
+            self.IMAGE,
+            self.version or 'latest'
         )
 
     def provide(self, engine):
@@ -66,7 +77,7 @@ class DatabaseProvider(object):
                 '--tmpfs={}'.format(self.DATA_DIR),
                 '--publish', str(self.PORT),
                 '--name', self.container_name,
-                self.IMAGE,
+                self.image,
             )
             # Give it time to start
             sleep(10)
@@ -88,7 +99,7 @@ class DatabaseProvider(object):
 class PostgreSQL(DatabaseProvider):
     """Provide a PostgreSQL database via Docker."""
 
-    IMAGE = 'postgres:latest'
+    IMAGE = 'postgres'
     PORT = 5432
     PASSWORD_ENV_VAR = 'POSTGRES_PASSWORD'
     DATA_DIR = '/var/lib/postgresql/data'
@@ -100,7 +111,7 @@ class PostgreSQL(DatabaseProvider):
 class MySQL(DatabaseProvider):
     """Provide a MySQL database via Docker."""
 
-    IMAGE = 'mysql:latest'
+    IMAGE = 'mysql'
     PORT = 3306
     PASSWORD_ENV_VAR = 'MYSQL_ROOT_PASSWORD'
     DATA_DIR = '/var/lib/mysql'
@@ -118,7 +129,7 @@ PROVIDERS = [
 ]
 
 
-def fast_test_database(databases, test_commands=('test',)):
+def fast_test_database(databases, test_commands=('test',), version=None):
     """
     If running tests, start a database on a tmpfs and set it as the default
     connection.
@@ -140,7 +151,7 @@ def fast_test_database(databases, test_commands=('test',)):
         return databases
 
     databases = copy(databases)
-    databases['default'] = match().provide(engine)
+    databases['default'] = match(version).provide(engine)
     return databases
 
 

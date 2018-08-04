@@ -81,7 +81,7 @@ class TestCase(unittest.TestCase):
         (version,) = cur.fetchone()
         return version
 
-    def assert_postgres(self, database, engine=None):
+    def assert_postgres(self, database, target_version, engine=None):
         """
         Verify that the specified dict is for a valid PostgreSQL database
         connection.
@@ -101,11 +101,11 @@ class TestCase(unittest.TestCase):
         )
         version = self._select_version(conn)
         self.assertTrue(
-            version.startswith('PostgreSQL 9'),
-            "PostgreSQL 9 expected, got {0}".format(version)
+            version.startswith('PostgreSQL {0}'.format(target_version)),
+            "PostgreSQL {0} expected, got {1}".format(target_version, version)
         )
 
-    def assert_mysql(self, database):
+    def assert_mysql(self, database, target_version):
         """
         Verify that the specified dict is for a valid MySQL database
         connection.
@@ -122,8 +122,8 @@ class TestCase(unittest.TestCase):
         )
         version = self._select_version(conn)
         self.assertTrue(
-            version.startswith('5.7'),
-            "MySQL 5.7 expected, got {0}".format(version)
+            version.startswith(target_version),
+            "MySQL {0} expected, got {1}".format(target_version, version)
         )
 
 
@@ -170,9 +170,9 @@ class FastDatabaseTest(TestCase):
         """
 
         with self.mock_sys_argv('python', './manage.py', 'test'):
-            databases = fast_test_database(MYSQL_SETTINGS)
+            databases = fast_test_database(MYSQL_SETTINGS, version='5.7')
 
-        self.assert_mysql(databases['default'])
+        self.assert_mysql(databases['default'], '5.7')
 
     def test_change_db_postgres(self):
         """
@@ -181,9 +181,9 @@ class FastDatabaseTest(TestCase):
         """
 
         with self.mock_sys_argv('python', './manage.py', 'test'):
-            databases = fast_test_database(PG_SETTINGS)
+            databases = fast_test_database(PG_SETTINGS, version=10)
 
-        self.assert_postgres(databases['default'])
+        self.assert_postgres(databases['default'], 10)
 
     def test_change_db_postgres_old(self):
         """
@@ -192,9 +192,9 @@ class FastDatabaseTest(TestCase):
         """
 
         with self.mock_sys_argv('python', './manage.py', 'test'):
-            databases = fast_test_database(PG_SETTINGS_OLD)
+            databases = fast_test_database(PG_SETTINGS_OLD, version=9)
 
-        self.assert_postgres(databases['default'],
+        self.assert_postgres(databases['default'], 9,
                              engine=PG_ENGINE_OLD)
 
 
@@ -260,7 +260,7 @@ class IntegrationTest(TestCase):
         with self.set_database_config(PG_SETTINGS):
             config = self.database_config(self.run_manage('test', '--noinput'))
 
-        self.assert_postgres(config['default'])
+        self.assert_postgres(config['default'], '9.5')
 
     def test_fast_database_mysql(self):
         """Test the supplied fast database."""
@@ -268,4 +268,4 @@ class IntegrationTest(TestCase):
         with self.set_database_config(MYSQL_SETTINGS):
             config = self.database_config(self.run_manage('test', '--noinput'))
 
-        self.assert_mysql(config['default'])
+        self.assert_mysql(config['default'], '5.7')
