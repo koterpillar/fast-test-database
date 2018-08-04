@@ -28,7 +28,7 @@ class DatabaseProvider(object):
     USER = None
     DATABASE = None
 
-    def __init__(self, version=None):
+    def __init__(self, version='latest'):
         self.version = version
 
     @property
@@ -42,10 +42,10 @@ class DatabaseProvider(object):
     @property
     def image(self):
         """The Docker image."""
-        if self.version:
-            return self.IMAGE.replace(':latest', ':{}'.format(self.version))
-
-        return self.IMAGE
+        return '{}:{}'.format(
+            self.IMAGE,
+            self.version
+        )
 
     def provide(self, engine):
         """
@@ -99,7 +99,7 @@ class DatabaseProvider(object):
 class PostgreSQL(DatabaseProvider):
     """Provide a PostgreSQL database via Docker."""
 
-    IMAGE = 'postgres:latest'
+    IMAGE = 'postgres'
     PORT = 5432
     PASSWORD_ENV_VAR = 'POSTGRES_PASSWORD'
     DATA_DIR = '/var/lib/postgresql/data'
@@ -111,7 +111,7 @@ class PostgreSQL(DatabaseProvider):
 class MySQL(DatabaseProvider):
     """Provide a MySQL database via Docker."""
 
-    IMAGE = 'mysql:latest'
+    IMAGE = 'mysql'
     PORT = 3306
     PASSWORD_ENV_VAR = 'MYSQL_ROOT_PASSWORD'
     DATA_DIR = '/var/lib/mysql'
