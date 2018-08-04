@@ -28,7 +28,7 @@ class DatabaseProvider(object):
     USER = None
     DATABASE = None
 
-    def __init__(self, version='latest'):
+    def __init__(self, version=None):
         self.version = version
 
     @property
@@ -44,7 +44,7 @@ class DatabaseProvider(object):
         """The Docker image."""
         return '{}:{}'.format(
             self.IMAGE,
-            self.version
+            self.version or 'latest'
         )
 
     def provide(self, engine):
