@@ -41,12 +41,11 @@ class DatabaseProvider(object):
 
     @property
     def image(self):
-        image_ = self.IMAGE[:]
-
+        """The Docker image."""
         if self.version:
-            image_ = image_.replace(':latest', ':{}'.format(self.version))
+            return self.IMAGE.replace(':latest', ':{}'.format(self.version))
 
-        return image_
+        return self.IMAGE
 
     def provide(self, engine):
         """
