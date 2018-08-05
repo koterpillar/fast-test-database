@@ -24,11 +24,8 @@ script:
   tox
 
 deploy:
-  provider: pypi
-  user: koterpillar
-  password:
-    secure: "RbtyPH/pkys31VGjM6dLQs1G2Mu51uDeoDPk22fgOYfd4lkAl2OtE0onVI5/HmKPTJvKj2C4E+gw+/AqtAXX0IFAE7QHyjdF5lmfx/i3WhhF0dM4bxGD3Q7w1daBfDCYTDSw4CfFGNmaD7j4Wozeem0BToTO32qPHGSkqce2qZE77EDwCWQntVziXcl6s5L3TlpcDP4OXPTgoTZd9nQrBfUwbNX0vgTp1zdwbK9PODZYFZMJh8WjMBUjflbgbMbtCagmnk05sWBb1pHJ+LAvbSjmUl1n0S3GNigjwv7kB+FQrhKnhEQ2daAuApittnGH0Wiagkm8Bacg4kRHaCvhw/hT3SY16U9aGMmMxoBvZI1d8FvnVl/PnglIPCaXDYPqJTK43kvusMa4FT+BTb16s71i3Tg2mWdPHgttHUqmBHwKsVpOfL8sSDhFIHEW5gpnYZuKmLQOWiI+aEvyMJRWXUAujgvO6YHVyLf8UKUzI/jl1b2BfvjkG4+zN9d8uTkZdWtjIrU2WzWe6zdg4NifboHhb9VKVB7yLtudmVv4mUQCzCa64CQ1K5/FVkr2NmABM50JQs6OcL30HQbeepW7Ho2k9OIGgCf83LT2Umybkr3wKNpDfFDqmzHewMiw0YVqYdHkwMB8TWxfywCxARg6obmTz9vgBFmeHzrBxpnIAZI="
-  server: https://pypi.python.org/pypi
+  provider: script
+  script: ./deploy
   on:
     tags: true
     all_branches: true
