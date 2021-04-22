@@ -87,7 +87,8 @@ class DatabaseProvider(object):
         0.0.0.0:49153\n:::49153
         """
         host, port = docker(
-            'port', self.container_name, str(self.PORT)).splitlines()[0].split(':')
+            'port', self.container_name, str(self.PORT)
+        ).splitlines()[0].split(':')
         port = int(port)
 
         return {
