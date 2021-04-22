@@ -13,9 +13,7 @@ from time import sleep
 def docker(*args):
     """Run Docker with the specified arguments and return the output."""
 
-    ret = subprocess.check_output(('docker',) + args).decode().strip()
-    print(f"{ret=} {args=}")
-    return ret
+    return subprocess.check_output(('docker',) + args).decode().strip()
 
 
 class DatabaseProvider(object):
@@ -84,8 +82,12 @@ class DatabaseProvider(object):
             # Give it time to start
             sleep(10)
 
+        """example return values of docker()
+        0.0.0.0:49153
+        0.0.0.0:49153\n:::49153
+        """
         host, port = docker(
-            'port', self.container_name, str(self.PORT)).split(':')
+            'port', self.container_name, str(self.PORT)).splitlines()[0].split(':')
         port = int(port)
 
         return {
