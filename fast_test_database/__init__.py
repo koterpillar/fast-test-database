@@ -13,7 +13,9 @@ from time import sleep
 def docker(*args):
     """Run Docker with the specified arguments and return the output."""
 
-    return subprocess.check_output(('docker',) + args).decode().strip()
+    ret = subprocess.check_output(('docker',) + args).decode().strip()
+    print(f"{ret=} {args=}")
+    return ret
 
 
 class DatabaseProvider(object):
