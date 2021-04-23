@@ -82,8 +82,13 @@ class DatabaseProvider(object):
             # Give it time to start
             sleep(10)
 
+        """example return values of docker()
+        0.0.0.0:49153
+        0.0.0.0:49153\n:::49153
+        """
         host, port = docker(
-            'port', self.container_name, str(self.PORT)).split(':')
+            'port', self.container_name, str(self.PORT)
+        ).splitlines()[0].split(':')
         port = int(port)
 
         return {
