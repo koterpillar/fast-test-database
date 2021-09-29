@@ -23,6 +23,7 @@ class DatabaseProvider(object):
     IMAGE = None
     PORT = None
     PASSWORD_ENV_VAR = None
+    CUSTOM_ENV = None
     DATA_DIR = None
     ENGINE_MATCH = None
     USER = None
@@ -36,7 +37,7 @@ class DatabaseProvider(object):
         """The Docker container name."""
         return 'fast_database_{}_{}'.format(
             os.path.basename(os.getcwd()),
-            self.image.replace(':', '-'),
+            self.image.replace('/', '.').replace(':', '-'),
         )
 
     @property
@@ -70,15 +71,25 @@ class DatabaseProvider(object):
             except subprocess.CalledProcessError:
                 pass
 
-            docker(
+            args = [
                 'run',
                 '--detach',
                 '--env', '{}={}'.format(self.PASSWORD_ENV_VAR, password),
+            ]
+
+            # Add custom environment variables
+            if self.CUSTOM_ENV:
+                for k, v in self.CUSTOM_ENV.items():
+                    args.extend(['--env', '{}={}'.format(k, v)])
+
+            args.extend([
                 '--tmpfs={}'.format(self.DATA_DIR),
                 '--publish', str(self.PORT),
                 '--name', self.container_name,
                 self.image,
-            )
+            ])
+
+            docker(*args)
             # Give it time to start
             sleep(10)
 
@@ -116,9 +127,10 @@ class PostgreSQL(DatabaseProvider):
 class MySQL(DatabaseProvider):
     """Provide a MySQL database via Docker."""
 
-    IMAGE = 'mysql'
+    IMAGE = 'mysql/mysql-server'
     PORT = 3306
     PASSWORD_ENV_VAR = 'MYSQL_ROOT_PASSWORD'
+    CUSTOM_ENV = {"MYSQL_ROOT_HOST": "%"}
     DATA_DIR = '/var/lib/mysql'
     ENGINE_MATCH = 'mysql'
     USER = 'root'
