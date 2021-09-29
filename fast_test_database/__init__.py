@@ -37,7 +37,7 @@ class DatabaseProvider(object):
         """The Docker container name."""
         return 'fast_database_{}_{}'.format(
             os.path.basename(os.getcwd()),
-            self.image.replace(':', '-'),
+            self.image.replace('/', '.').replace(':', '-'),
         )
 
     @property
