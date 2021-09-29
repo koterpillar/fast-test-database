@@ -79,7 +79,7 @@ class DatabaseProvider(object):
 
             # Add custom environment variables
             if self.CUSTOM_ENV:
-                for k, v in self.CUSTOM_ENV:
+                for k, v in self.CUSTOM_ENV.items():
                     args.extend(['--env', '{}={}'.format(k, v)])
 
             args.extend([
