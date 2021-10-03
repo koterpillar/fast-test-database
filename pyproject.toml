@@ -3,7 +3,8 @@ name = "fast-test-database"
 version = "0.0.0"
 description = "Configure an in-memory database for running Django tests"
 authors = ["Alexey Kotlyarov <a@koterpillar.com>"]
-license = "GPL3"
+license = "GPL-3.0-or-later"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.7"
