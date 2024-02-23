@@ -25,9 +25,9 @@ version = None
 engine = DATABASES["default"]["ENGINE"]
 
 if "mysql" in engine:
-    version = "5.7"
+    version = "8.0"
 elif "postgresql" in engine:
-    version = "9.5"
+    version = "15"
 
 DATABASES = fast_test_database(DATABASES, version=version)
 

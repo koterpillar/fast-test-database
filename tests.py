@@ -16,36 +16,36 @@ import psycopg2
 from fast_test_database import fast_test_database
 
 
-PG_ENGINE = 'django.db.backends.postgresql'
-PG_ENGINE_OLD = 'django.db.backends.postgresql_psycopg2'
-MYSQL_ENGINE = 'django.db.backends.mysql'
-SQLITE_ENGINE = 'django.db.backends.sqlite3'
+PG_ENGINE = "django.db.backends.postgresql"
+PG_ENGINE_OLD = "django.db.backends.postgresql_psycopg2"
+MYSQL_ENGINE = "django.db.backends.mysql"
+SQLITE_ENGINE = "django.db.backends.sqlite3"
 
 SQLITE_SETTINGS = {
-    'default': {
-        'ENGINE': SQLITE_ENGINE,
-        'NAME': '/some/db.sqlite3',
+    "default": {
+        "ENGINE": SQLITE_ENGINE,
+        "NAME": "/some/db.sqlite3",
     },
 }
 
 MYSQL_SETTINGS = {
-    'default': {
-        'ENGINE': MYSQL_ENGINE,
-        'NAME': 'some',
+    "default": {
+        "ENGINE": MYSQL_ENGINE,
+        "NAME": "some",
     },
 }
 
 PG_SETTINGS = {
-    'default': {
-        'ENGINE': PG_ENGINE,
-        'NAME': 'some',
+    "default": {
+        "ENGINE": PG_ENGINE,
+        "NAME": "some",
     },
 }
 
 PG_SETTINGS_OLD = {
-    'default': {
-        'ENGINE': PG_ENGINE_OLD,
-        'NAME': 'some',
+    "default": {
+        "ENGINE": PG_ENGINE_OLD,
+        "NAME": "some",
     },
 }
 
@@ -60,17 +60,16 @@ class TestCase(unittest.TestCase):
         """
 
         self.assertEqual(
-            database['ENGINE'],
+            database["ENGINE"],
             expected_engine,
-            "Engine must be {0}, not {1}.".format(
-                expected_engine, database['ENGINE'])
+            f"Engine must be {expected_engine}, not {database['ENGINE']}",
         )
 
     def _select_version(self, connection):
         """Get the database version for the connection."""
 
         cur = connection.cursor()
-        cur.execute('SELECT VERSION()')
+        cur.execute("SELECT VERSION()")
         (version,) = cur.fetchone()
         return version
 
@@ -86,16 +85,16 @@ class TestCase(unittest.TestCase):
 
         # Try connecting to it
         conn = psycopg2.connect(
-            database=database['NAME'],
-            user=database['USER'],
-            password=database['PASSWORD'],
-            host=database['HOST'],
-            port=database['PORT'],
+            database=database["NAME"],
+            user=database["USER"],
+            password=database["PASSWORD"],
+            host=database["HOST"],
+            port=database["PORT"],
         )
         version = self._select_version(conn)
         self.assertTrue(
-            version.startswith('PostgreSQL {0}'.format(target_version)),
-            "PostgreSQL {0} expected, got {1}".format(target_version, version)
+            version.startswith(f"PostgreSQL {target_version}"),
+            f"PostgreSQL {target_version} expected, got {version}",
         )
 
     def assert_mysql(self, database, target_version):
@@ -107,16 +106,16 @@ class TestCase(unittest.TestCase):
         self.assert_engine(MYSQL_ENGINE, database)
 
         conn = MySQLdb.connect(
-            db=database['NAME'],
-            user=database['USER'],
-            passwd=database['PASSWORD'],
-            host=database['HOST'],
-            port=database['PORT'],
+            db=database["NAME"],
+            user=database["USER"],
+            passwd=database["PASSWORD"],
+            host=database["HOST"],
+            port=database["PORT"],
         )
         version = self._select_version(conn)
         self.assertTrue(
             version.startswith(target_version),
-            "MySQL {0} expected, got {1}".format(target_version, version)
+            f"MySQL {target_version} expected, got {version}"
         )
 
 
@@ -138,11 +137,11 @@ class FastDatabaseTest(TestCase):
         """Test calling fast_test_database while not inside tests."""
 
         for config in (
-                MYSQL_SETTINGS,
-                PG_SETTINGS,
-                SQLITE_SETTINGS,
+            MYSQL_SETTINGS,
+            PG_SETTINGS,
+            SQLITE_SETTINGS,
         ):
-            with self.mock_sys_argv('python', './manage.py', 'runserver'):
+            with self.mock_sys_argv("python", "./manage.py", "runserver"):
                 databases = fast_test_database(config)
 
             self.assertEqual(databases, config)
@@ -152,20 +151,20 @@ class FastDatabaseTest(TestCase):
         Test calling fast_test_database inside tests with SQLite configured.
         """
 
-        with self.mock_sys_argv('python', './manage.py', 'test'):
+        with self.mock_sys_argv("python", "./manage.py", "test"):
             databases = fast_test_database(SQLITE_SETTINGS)
 
-        self.assertEqual(databases['default'], SQLITE_SETTINGS['default'])
+        self.assertEqual(databases["default"], SQLITE_SETTINGS["default"])
 
     def test_change_db_mysql(self):
         """
         Test calling fast_test_database inside tests with MySQL configured.
         """
 
-        with self.mock_sys_argv('python', './manage.py', 'test'):
-            databases = fast_test_database(MYSQL_SETTINGS, version='5.7')
+        with self.mock_sys_argv("python", "./manage.py", "test"):
+            databases = fast_test_database(MYSQL_SETTINGS, version="8.3")
 
-        self.assert_mysql(databases['default'], '5.7')
+        self.assert_mysql(databases["default"], "8.3")
 
     def test_change_db_postgres(self):
         """
@@ -173,10 +172,10 @@ class FastDatabaseTest(TestCase):
         configured.
         """
 
-        with self.mock_sys_argv('python', './manage.py', 'test'):
-            databases = fast_test_database(PG_SETTINGS, version=10)
+        with self.mock_sys_argv("python", "./manage.py", "test"):
+            databases = fast_test_database(PG_SETTINGS, version=16)
 
-        self.assert_postgres(databases['default'], 10)
+        self.assert_postgres(databases["default"], 16)
 
     def test_change_db_postgres_old(self):
         """
@@ -184,18 +183,16 @@ class FastDatabaseTest(TestCase):
         configured using the old backend alias.
         """
 
-        with self.mock_sys_argv('python', './manage.py', 'test'):
-            databases = fast_test_database(PG_SETTINGS_OLD, version=9)
+        with self.mock_sys_argv("python", "./manage.py", "test"):
+            databases = fast_test_database(PG_SETTINGS_OLD, version=15)
 
-        self.assert_postgres(databases['default'], 9,
-                             engine=PG_ENGINE_OLD)
+        self.assert_postgres(databases["default"], 15, engine=PG_ENGINE_OLD)
 
 
 class IntegrationTest(TestCase):
     """Test supplying the fast database to the test application."""
 
-    TEST_APP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                'test_app')
+    TEST_APP_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test_app")
 
     def run_manage(self, *args):
         """
@@ -203,11 +200,10 @@ class IntegrationTest(TestCase):
         """
 
         previous_wd = os.getcwd()
-        os.environ['PYTHONPATH'] = previous_wd
-        os.chdir('test_app')
+        os.environ["PYTHONPATH"] = previous_wd
+        os.chdir("test_app")
         try:
-            return subprocess.check_output(('./manage.py',) + args)\
-                .decode().strip()
+            return subprocess.check_output(("./manage.py",) + args).decode().strip()
         finally:
             os.chdir(previous_wd)
 
@@ -218,32 +214,32 @@ class IntegrationTest(TestCase):
         See test_app/test_app/settings.py for the code printing it.
         """
 
-        lines = output.split('\n')
+        lines = output.split("\n")
         start = lines.index("--- database configuration ---")
         end = lines.index("--- end database configuration ---")
-        configuration = '\n'.join(lines[start + 1:end])
+        configuration = "\n".join(lines[start + 1 : end])
         return json.loads(configuration)
 
     @contextmanager
     def set_database_config(self, config):
         """Set the DATABASES setting of the test application."""
 
-        os.environ['DATABASES'] = json.dumps(config)
+        os.environ["DATABASES"] = json.dumps(config)
         try:
             yield
         finally:
-            del os.environ['DATABASES']
+            del os.environ["DATABASES"]
 
     def test_normal_database(self):
         """Test the database configuration under normal running."""
 
         for config in (
-                MYSQL_SETTINGS,
-                PG_SETTINGS,
-                SQLITE_SETTINGS,
+            MYSQL_SETTINGS,
+            PG_SETTINGS,
+            SQLITE_SETTINGS,
         ):
             with self.set_database_config(config):
-                actual = self.database_config(self.run_manage('check'))
+                actual = self.database_config(self.run_manage("check"))
 
             self.assertEqual(actual, config)
 
@@ -251,14 +247,14 @@ class IntegrationTest(TestCase):
         """Test the supplied fast database."""
 
         with self.set_database_config(PG_SETTINGS):
-            config = self.database_config(self.run_manage('test', '--noinput'))
+            config = self.database_config(self.run_manage("test", "--noinput"))
 
-        self.assert_postgres(config['default'], '9.5')
+        self.assert_postgres(config["default"], "15")
 
     def test_fast_database_mysql(self):
         """Test the supplied fast database."""
 
         with self.set_database_config(MYSQL_SETTINGS):
-            config = self.database_config(self.run_manage('test', '--noinput'))
+            config = self.database_config(self.run_manage("test", "--noinput"))
 
-        self.assert_mysql(config['default'], '5.7')
+        self.assert_mysql(config["default"], "8.0")
