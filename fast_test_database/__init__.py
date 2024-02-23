@@ -35,15 +35,12 @@ class DatabaseProvider(object):
     @property
     def container_name(self):
         """The Docker container name."""
-        return "fast_database_{}_{}".format(
-            os.path.basename(os.getcwd()),
-            self.image.replace("/", ".").replace(":", "-"),
-        )
+        return f"fast_database_{os.path.basename(os.getcwd())}_{self.image.replace('/', '.').replace(':', '-')}"
 
     @property
     def image(self):
         """The Docker image."""
-        return "{}:{}".format(self.IMAGE, self.version or "latest")
+        return f"{self.IMAGE}:{self.version or 'latest'}"
 
     def provide(self, engine):
         """
@@ -68,21 +65,16 @@ class DatabaseProvider(object):
             except subprocess.CalledProcessError:
                 pass
 
-            args = [
-                "run",
-                "--detach",
-                "--env",
-                "{}={}".format(self.PASSWORD_ENV_VAR, password),
-            ]
+            args = ["run", "--detach", "--env", f"{self.PASSWORD_ENV_VAR}={password}"]
 
             # Add custom environment variables
             if self.CUSTOM_ENV:
                 for k, v in self.CUSTOM_ENV.items():
-                    args.extend(["--env", "{}={}".format(k, v)])
+                    args.extend(["--env", f"{k}={v}"])
 
             args.extend(
                 [
-                    "--tmpfs={}".format(self.DATA_DIR),
+                    f"--tmpfs={self.DATA_DIR}",
                     "--publish",
                     str(self.PORT),
                     "--name",
