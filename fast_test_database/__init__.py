@@ -123,7 +123,7 @@ class PostgreSQL(DatabaseProvider):
 class MySQL(DatabaseProvider):
     """Provide a MySQL database via Docker."""
 
-    IMAGE = "mysql/mysql-server"
+    IMAGE = "mysql"
     PORT = 3306
     PASSWORD_ENV_VAR = "MYSQL_ROOT_PASSWORD"
     CUSTOM_ENV = {"MYSQL_ROOT_HOST": "%"}
