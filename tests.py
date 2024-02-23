@@ -162,9 +162,9 @@ class FastDatabaseTest(TestCase):
         """
 
         with self.mock_sys_argv("python", "./manage.py", "test"):
-            databases = fast_test_database(MYSQL_SETTINGS, version="5.7")
+            databases = fast_test_database(MYSQL_SETTINGS, version="8.3")
 
-        self.assert_mysql(databases["default"], "5.7")
+        self.assert_mysql(databases["default"], "8.3")
 
     def test_change_db_postgres(self):
         """
@@ -173,9 +173,9 @@ class FastDatabaseTest(TestCase):
         """
 
         with self.mock_sys_argv("python", "./manage.py", "test"):
-            databases = fast_test_database(PG_SETTINGS, version=10)
+            databases = fast_test_database(PG_SETTINGS, version=16)
 
-        self.assert_postgres(databases["default"], 10)
+        self.assert_postgres(databases["default"], 16)
 
     def test_change_db_postgres_old(self):
         """
@@ -184,9 +184,9 @@ class FastDatabaseTest(TestCase):
         """
 
         with self.mock_sys_argv("python", "./manage.py", "test"):
-            databases = fast_test_database(PG_SETTINGS_OLD, version=9)
+            databases = fast_test_database(PG_SETTINGS_OLD, version=15)
 
-        self.assert_postgres(databases["default"], 9, engine=PG_ENGINE_OLD)
+        self.assert_postgres(databases["default"], 15, engine=PG_ENGINE_OLD)
 
 
 class IntegrationTest(TestCase):
@@ -249,7 +249,7 @@ class IntegrationTest(TestCase):
         with self.set_database_config(PG_SETTINGS):
             config = self.database_config(self.run_manage("test", "--noinput"))
 
-        self.assert_postgres(config["default"], "9.5")
+        self.assert_postgres(config["default"], "15")
 
     def test_fast_database_mysql(self):
         """Test the supplied fast database."""
@@ -257,4 +257,4 @@ class IntegrationTest(TestCase):
         with self.set_database_config(MYSQL_SETTINGS):
             config = self.database_config(self.run_manage("test", "--noinput"))
 
-        self.assert_mysql(config["default"], "5.7")
+        self.assert_mysql(config["default"], "8.0")
