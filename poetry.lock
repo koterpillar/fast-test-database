@@ -2,20 +2,86 @@
 
 [[package]]
 name = "asgiref"
-version = "3.4.1"
+version = "3.7.2"
 description = "ASGI specs, helper code, and adapters"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "asgiref-3.4.1-py3-none-any.whl", hash = "sha256:ffc141aa908e6f175673e7b1b3b7af4fdb0ecb738fc5c8b88f69f055c2415214"},
-    {file = "asgiref-3.4.1.tar.gz", hash = "sha256:4ef1ab46b484e3c706329cedeff284a5d40824200638503f5768edb6de7d58e9"},
+    {file = "asgiref-3.7.2-py3-none-any.whl", hash = "sha256:89b2ef2247e3b562a16eef663bc0e2e703ec6468e2fa8a5cd61cd449786d4f6e"},
+    {file = "asgiref-3.7.2.tar.gz", hash = "sha256:9e0ce3aa93a819ba5b45120216b23878cf6e8525eb3848653452b4192b92afed"},
 ]
-
-[package.dependencies]
-typing-extensions = {version = "*", markers = "python_version < \"3.8\""}
 
 [package.extras]
 tests = ["mypy (>=0.800)", "pytest", "pytest-asyncio"]
+
+[[package]]
+name = "black"
+version = "24.2.0"
+description = "The uncompromising code formatter."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "black-24.2.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:6981eae48b3b33399c8757036c7f5d48a535b962a7c2310d19361edeef64ce29"},
+    {file = "black-24.2.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:d533d5e3259720fdbc1b37444491b024003e012c5173f7d06825a77508085430"},
+    {file = "black-24.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:61a0391772490ddfb8a693c067df1ef5227257e72b0e4108482b8d41b5aee13f"},
+    {file = "black-24.2.0-cp310-cp310-win_amd64.whl", hash = "sha256:992e451b04667116680cb88f63449267c13e1ad134f30087dec8527242e9862a"},
+    {file = "black-24.2.0-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:163baf4ef40e6897a2a9b83890e59141cc8c2a98f2dda5080dc15c00ee1e62cd"},
+    {file = "black-24.2.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:e37c99f89929af50ffaf912454b3e3b47fd64109659026b678c091a4cd450fb2"},
+    {file = "black-24.2.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4f9de21bafcba9683853f6c96c2d515e364aee631b178eaa5145fc1c61a3cc92"},
+    {file = "black-24.2.0-cp311-cp311-win_amd64.whl", hash = "sha256:9db528bccb9e8e20c08e716b3b09c6bdd64da0dd129b11e160bf082d4642ac23"},
+    {file = "black-24.2.0-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:d84f29eb3ee44859052073b7636533ec995bd0f64e2fb43aeceefc70090e752b"},
+    {file = "black-24.2.0-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:1e08fb9a15c914b81dd734ddd7fb10513016e5ce7e6704bdd5e1251ceee51ac9"},
+    {file = "black-24.2.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:810d445ae6069ce64030c78ff6127cd9cd178a9ac3361435708b907d8a04c693"},
+    {file = "black-24.2.0-cp312-cp312-win_amd64.whl", hash = "sha256:ba15742a13de85e9b8f3239c8f807723991fbfae24bad92d34a2b12e81904982"},
+    {file = "black-24.2.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:7e53a8c630f71db01b28cd9602a1ada68c937cbf2c333e6ed041390d6968faf4"},
+    {file = "black-24.2.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:93601c2deb321b4bad8f95df408e3fb3943d85012dddb6121336b8e24a0d1218"},
+    {file = "black-24.2.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a0057f800de6acc4407fe75bb147b0c2b5cbb7c3ed110d3e5999cd01184d53b0"},
+    {file = "black-24.2.0-cp38-cp38-win_amd64.whl", hash = "sha256:faf2ee02e6612577ba0181f4347bcbcf591eb122f7841ae5ba233d12c39dcb4d"},
+    {file = "black-24.2.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:057c3dc602eaa6fdc451069bd027a1b2635028b575a6c3acfd63193ced20d9c8"},
+    {file = "black-24.2.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:08654d0797e65f2423f850fc8e16a0ce50925f9337fb4a4a176a7aa4026e63f8"},
+    {file = "black-24.2.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ca610d29415ee1a30a3f30fab7a8f4144e9d34c89a235d81292a1edb2b55f540"},
+    {file = "black-24.2.0-cp39-cp39-win_amd64.whl", hash = "sha256:4dd76e9468d5536abd40ffbc7a247f83b2324f0c050556d9c371c2b9a9a95e31"},
+    {file = "black-24.2.0-py3-none-any.whl", hash = "sha256:e8a6ae970537e67830776488bca52000eaa37fa63b9988e8c487458d9cd5ace6"},
+    {file = "black-24.2.0.tar.gz", hash = "sha256:bce4f25c27c3435e4dace4815bcb2008b87e167e3bf4ee47ccdc5ce906eb4894"},
+]
+
+[package.dependencies]
+click = ">=8.0.0"
+mypy-extensions = ">=0.4.3"
+packaging = ">=22.0"
+pathspec = ">=0.9.0"
+platformdirs = ">=2"
+
+[package.extras]
+colorama = ["colorama (>=0.4.3)"]
+d = ["aiohttp (>=3.7.4)", "aiohttp (>=3.7.4,!=3.9.0)"]
+jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
+uvloop = ["uvloop (>=0.15.2)"]
+
+[[package]]
+name = "click"
+version = "8.1.7"
+description = "Composable command line interface toolkit"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "click-8.1.7-py3-none-any.whl", hash = "sha256:ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28"},
+    {file = "click-8.1.7.tar.gz", hash = "sha256:ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
+
+[[package]]
+name = "colorama"
+version = "0.4.6"
+description = "Cross-platform colored terminal text."
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
+files = [
+    {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
+    {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
+]
 
 [[package]]
 name = "django"
@@ -38,59 +104,127 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
-name = "mysqlclient"
-version = "2.0.3"
-description = "Python interface to MySQL"
+name = "isort"
+version = "5.13.2"
+description = "A Python utility / library to sort Python imports."
+optional = false
+python-versions = ">=3.8.0"
+files = [
+    {file = "isort-5.13.2-py3-none-any.whl", hash = "sha256:8ca5e72a8d85860d5a3fa69b8745237f2939afe12dbf656afbcb47fe72d947a6"},
+    {file = "isort-5.13.2.tar.gz", hash = "sha256:48fdfcb9face5d58a4f6dde2e72a1fb8dcaf8ab26f95ab49fab84c2ddefb0109"},
+]
+
+[package.extras]
+colors = ["colorama (>=0.4.6)"]
+
+[[package]]
+name = "mypy-extensions"
+version = "1.0.0"
+description = "Type system extensions for programs checked with the mypy type checker."
 optional = false
 python-versions = ">=3.5"
 files = [
-    {file = "mysqlclient-2.0.3-cp36-cp36m-win_amd64.whl", hash = "sha256:3381ca1a4f37ff1155fcfde20836b46416d66531add8843f6aa6d968982731c3"},
-    {file = "mysqlclient-2.0.3-cp37-cp37m-win_amd64.whl", hash = "sha256:0ac0dd759c4ca02c35a9fedc24bc982cf75171651e8187c2495ec957a87dfff7"},
-    {file = "mysqlclient-2.0.3-cp38-cp38-win_amd64.whl", hash = "sha256:71c4b330cf2313bbda0307fc858cc9055e64493ba9bf28454d25cf8b3ee8d7f5"},
-    {file = "mysqlclient-2.0.3-cp39-cp39-win_amd64.whl", hash = "sha256:fc575093cf81b6605bed84653e48b277318b880dc9becf42dd47fa11ffd3e2b6"},
-    {file = "mysqlclient-2.0.3.tar.gz", hash = "sha256:f6ebea7c008f155baeefe16c56cd3ee6239f7a5a9ae42396c2f1860f08a7c432"},
+    {file = "mypy_extensions-1.0.0-py3-none-any.whl", hash = "sha256:4392f6c0eb8a5668a69e23d168ffa70f0be9ccfd32b5cc2d26a34ae5b844552d"},
+    {file = "mypy_extensions-1.0.0.tar.gz", hash = "sha256:75dbf8955dc00442a438fc4d0666508a9a97b6bd41aa2f0ffe9d2f2725af0782"},
 ]
 
 [[package]]
+name = "mysqlclient"
+version = "2.2.4"
+description = "Python interface to MySQL"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "mysqlclient-2.2.4-cp310-cp310-win_amd64.whl", hash = "sha256:ac44777eab0a66c14cb0d38965572f762e193ec2e5c0723bcd11319cc5b693c5"},
+    {file = "mysqlclient-2.2.4-cp311-cp311-win_amd64.whl", hash = "sha256:329e4eec086a2336fe3541f1ce095d87a6f169d1cc8ba7b04ac68bcb234c9711"},
+    {file = "mysqlclient-2.2.4-cp312-cp312-win_amd64.whl", hash = "sha256:e1ebe3f41d152d7cb7c265349fdb7f1eca86ccb0ca24a90036cde48e00ceb2ab"},
+    {file = "mysqlclient-2.2.4-cp38-cp38-win_amd64.whl", hash = "sha256:3c318755e06df599338dad7625f884b8a71fcf322a9939ef78c9b3db93e1de7a"},
+    {file = "mysqlclient-2.2.4-cp39-cp39-win_amd64.whl", hash = "sha256:9d4c015480c4a6b2b1602eccd9846103fc70606244788d04aa14b31c4bd1f0e2"},
+    {file = "mysqlclient-2.2.4-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:d43987bb9626096a302ca6ddcdd81feaeca65ced1d5fe892a6a66b808326aa54"},
+    {file = "mysqlclient-2.2.4-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:4e80dcad884dd6e14949ac6daf769123223a52a6805345608bf49cdaf7bc8b3a"},
+    {file = "mysqlclient-2.2.4-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:9d3310295cb682232cadc28abd172f406c718b9ada41d2371259098ae37779d3"},
+    {file = "mysqlclient-2.2.4.tar.gz", hash = "sha256:33bc9fb3464e7d7c10b1eaf7336c5ff8f2a3d3b88bab432116ad2490beb3bf41"},
+]
+
+[[package]]
+name = "packaging"
+version = "23.2"
+description = "Core utilities for Python packages"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "packaging-23.2-py3-none-any.whl", hash = "sha256:8c491190033a9af7e1d931d0b5dacc2ef47509b34dd0de67ed209b5203fc88c7"},
+    {file = "packaging-23.2.tar.gz", hash = "sha256:048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5"},
+]
+
+[[package]]
+name = "pathspec"
+version = "0.12.1"
+description = "Utility library for gitignore style pattern matching of file paths."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pathspec-0.12.1-py3-none-any.whl", hash = "sha256:a0d503e138a4c123b27490a4f7beda6a01c6f288df0e4a8b79c7eb0dc7b4cc08"},
+    {file = "pathspec-0.12.1.tar.gz", hash = "sha256:a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712"},
+]
+
+[[package]]
+name = "platformdirs"
+version = "4.2.0"
+description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "platformdirs-4.2.0-py3-none-any.whl", hash = "sha256:0614df2a2f37e1a662acbd8e2b25b92ccf8632929bc6d43467e17fe89c75e068"},
+    {file = "platformdirs-4.2.0.tar.gz", hash = "sha256:ef0cc731df711022c174543cb70a9b5bd22e5a9337c8624ef2c2ceb8ddad8768"},
+]
+
+[package.extras]
+docs = ["furo (>=2023.9.10)", "proselint (>=0.13)", "sphinx (>=7.2.6)", "sphinx-autodoc-typehints (>=1.25.2)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)"]
+
+[[package]]
 name = "psycopg2"
-version = "2.9.1"
+version = "2.9.9"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "psycopg2-2.9.1-cp310-cp310-win32.whl", hash = "sha256:25615574419dd9bda6fdfdcd58afb22e721f5b807cb3d5e62f488c8acf8cb754"},
-    {file = "psycopg2-2.9.1-cp310-cp310-win_amd64.whl", hash = "sha256:e5a8ed9dbfca8dc162c4ada5ab017e10d5a66c542b4c73569f103fa5f342f498"},
-    {file = "psycopg2-2.9.1-cp36-cp36m-win32.whl", hash = "sha256:7f91312f065df517187134cce8e395ab37f5b601a42446bdc0f0d51773621854"},
-    {file = "psycopg2-2.9.1-cp36-cp36m-win_amd64.whl", hash = "sha256:830c8e8dddab6b6716a4bf73a09910c7954a92f40cf1d1e702fb93c8a919cc56"},
-    {file = "psycopg2-2.9.1-cp37-cp37m-win32.whl", hash = "sha256:89409d369f4882c47f7ea20c42c5046879ce22c1e4ea20ef3b00a4dfc0a7f188"},
-    {file = "psycopg2-2.9.1-cp37-cp37m-win_amd64.whl", hash = "sha256:7640e1e4d72444ef012e275e7b53204d7fab341fb22bc76057ede22fe6860b25"},
-    {file = "psycopg2-2.9.1-cp38-cp38-win32.whl", hash = "sha256:079d97fc22de90da1d370c90583659a9f9a6ee4007355f5825e5f1c70dffc1fa"},
-    {file = "psycopg2-2.9.1-cp38-cp38-win_amd64.whl", hash = "sha256:2c992196719fadda59f72d44603ee1a2fdcc67de097eea38d41c7ad9ad246e62"},
-    {file = "psycopg2-2.9.1-cp39-cp39-win32.whl", hash = "sha256:2087013c159a73e09713294a44d0c8008204d06326006b7f652bef5ace66eebb"},
-    {file = "psycopg2-2.9.1-cp39-cp39-win_amd64.whl", hash = "sha256:bf35a25f1aaa8a3781195595577fcbb59934856ee46b4f252f56ad12b8043bcf"},
-    {file = "psycopg2-2.9.1.tar.gz", hash = "sha256:de5303a6f1d0a7a34b9d40e4d3bef684ccc44a49bbe3eb85e3c0bffb4a131b7c"},
+    {file = "psycopg2-2.9.9-cp310-cp310-win32.whl", hash = "sha256:38a8dcc6856f569068b47de286b472b7c473ac7977243593a288ebce0dc89516"},
+    {file = "psycopg2-2.9.9-cp310-cp310-win_amd64.whl", hash = "sha256:426f9f29bde126913a20a96ff8ce7d73fd8a216cfb323b1f04da402d452853c3"},
+    {file = "psycopg2-2.9.9-cp311-cp311-win32.whl", hash = "sha256:ade01303ccf7ae12c356a5e10911c9e1c51136003a9a1d92f7aa9d010fb98372"},
+    {file = "psycopg2-2.9.9-cp311-cp311-win_amd64.whl", hash = "sha256:121081ea2e76729acfb0673ff33755e8703d45e926e416cb59bae3a86c6a4981"},
+    {file = "psycopg2-2.9.9-cp312-cp312-win32.whl", hash = "sha256:d735786acc7dd25815e89cc4ad529a43af779db2e25aa7c626de864127e5a024"},
+    {file = "psycopg2-2.9.9-cp312-cp312-win_amd64.whl", hash = "sha256:a7653d00b732afb6fc597e29c50ad28087dcb4fbfb28e86092277a559ae4e693"},
+    {file = "psycopg2-2.9.9-cp37-cp37m-win32.whl", hash = "sha256:5e0d98cade4f0e0304d7d6f25bbfbc5bd186e07b38eac65379309c4ca3193efa"},
+    {file = "psycopg2-2.9.9-cp37-cp37m-win_amd64.whl", hash = "sha256:7e2dacf8b009a1c1e843b5213a87f7c544b2b042476ed7755be813eaf4e8347a"},
+    {file = "psycopg2-2.9.9-cp38-cp38-win32.whl", hash = "sha256:ff432630e510709564c01dafdbe996cb552e0b9f3f065eb89bdce5bd31fabf4c"},
+    {file = "psycopg2-2.9.9-cp38-cp38-win_amd64.whl", hash = "sha256:bac58c024c9922c23550af2a581998624d6e02350f4ae9c5f0bc642c633a2d5e"},
+    {file = "psycopg2-2.9.9-cp39-cp39-win32.whl", hash = "sha256:c92811b2d4c9b6ea0285942b2e7cac98a59e166d59c588fe5cfe1eda58e72d59"},
+    {file = "psycopg2-2.9.9-cp39-cp39-win_amd64.whl", hash = "sha256:de80739447af31525feddeb8effd640782cf5998e1a4e9192ebdf829717e3913"},
+    {file = "psycopg2-2.9.9.tar.gz", hash = "sha256:d1454bde93fb1e224166811694d600e746430c006fbb031ea06ecc2ea41bf156"},
 ]
 
 [[package]]
 name = "pycodestyle"
-version = "2.7.0"
+version = "2.11.1"
 description = "Python style guide checker"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+python-versions = ">=3.8"
 files = [
-    {file = "pycodestyle-2.7.0-py2.py3-none-any.whl", hash = "sha256:514f76d918fcc0b55c6680472f0a37970994e07bbb80725808c17089be302068"},
-    {file = "pycodestyle-2.7.0.tar.gz", hash = "sha256:c389c1d06bf7904078ca03399a4816f974a1d590090fecea0c63ec26ebaf1cef"},
+    {file = "pycodestyle-2.11.1-py2.py3-none-any.whl", hash = "sha256:44fe31000b2d866f2e41841b18528a505fbd7fef9017b04eff4e2648a0fadc67"},
+    {file = "pycodestyle-2.11.1.tar.gz", hash = "sha256:41ba0e7afc9752dfb53ced5489e89f8186be00e599e712660695b7a75ff2663f"},
 ]
 
 [[package]]
 name = "pytz"
-version = "2021.3"
+version = "2024.1"
 description = "World timezone definitions, modern and historical"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pytz-2021.3-py2.py3-none-any.whl", hash = "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c"},
-    {file = "pytz-2021.3.tar.gz", hash = "sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326"},
+    {file = "pytz-2024.1-py2.py3-none-any.whl", hash = "sha256:328171f4e3623139da4983451950b28e95ac706e13f3f2630a879749e7a8b319"},
+    {file = "pytz-2024.1.tar.gz", hash = "sha256:2a29735ea9c18baf14b448846bde5a48030ed267578472d8955cd0e7443a9812"},
 ]
 
 [[package]]
@@ -109,19 +243,7 @@ dev = ["build", "flake8"]
 doc = ["sphinx"]
 test = ["pytest", "pytest-cov"]
 
-[[package]]
-name = "typing-extensions"
-version = "3.10.0.2"
-description = "Backported and Experimental Type Hints for Python 3.5+"
-optional = false
-python-versions = "*"
-files = [
-    {file = "typing_extensions-3.10.0.2-py2-none-any.whl", hash = "sha256:d8226d10bc02a29bcc81df19a26e56a9647f8b0a6d4a83924139f4a8b01f17b7"},
-    {file = "typing_extensions-3.10.0.2-py3-none-any.whl", hash = "sha256:f1d25edafde516b146ecd0613dabcc61409817af4766fbbcfb8d1ad4ec441a34"},
-    {file = "typing_extensions-3.10.0.2.tar.gz", hash = "sha256:49f75d16ff11f1cd258e1b988ccff82a3ca5570217d7ad8c5f48205dd99a677e"},
-]
-
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.7"
-content-hash = "f7f42903c9dd087ca26bf937733eeaca53cbc2222204837702e1ea03e66ed2c4"
+python-versions = "^3.11"
+content-hash = "666f79e8580726d7bac9e784c1ba21e5d1f23cddfb62bc70d6917606836896d8"

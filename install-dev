@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Install dependencies required for the project
+
+set -euo pipefail
+
+command_exists() {
+  type -f "$1" >/dev/null 2>&1
+}
+
+case "$OSTYPE" in
+  darwin*)
+    if ! command_exists brew
+    then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+
+    if ! command_exists shellcheck
+    then
+      brew install shellcheck
+    fi
+
+    export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+    export PKG_CONFIG_PATH="/opt/homebrew/opt/libpq/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    if ! command_exists psql
+    then
+      brew install libpq
+    fi
+
+    export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+    export PKG_CONFIG_PATH="/opt/homebrew/opt/mysql-client/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    if ! command_exists mysql_config
+    then
+      brew install mysql-client
+    fi
+  ;;
+  linux*)
+  ;;
+esac
+
+if ! command_exists poetry
+then
+  pip install poetry
+fi
+
+poetry install

@@ -13,7 +13,7 @@ from time import sleep
 def docker(*args):
     """Run Docker with the specified arguments and return the output."""
 
-    return subprocess.check_output(('docker',) + args).decode().strip()
+    return subprocess.check_output(("docker",) + args).decode().strip()
 
 
 class DatabaseProvider(object):
@@ -35,18 +35,15 @@ class DatabaseProvider(object):
     @property
     def container_name(self):
         """The Docker container name."""
-        return 'fast_database_{}_{}'.format(
+        return "fast_database_{}_{}".format(
             os.path.basename(os.getcwd()),
-            self.image.replace('/', '.').replace(':', '-'),
+            self.image.replace("/", ".").replace(":", "-"),
         )
 
     @property
     def image(self):
         """The Docker image."""
-        return '{}:{}'.format(
-            self.IMAGE,
-            self.version or 'latest'
-        )
+        return "{}:{}".format(self.IMAGE, self.version or "latest")
 
     def provide(self, engine):
         """
@@ -56,38 +53,43 @@ class DatabaseProvider(object):
         """
 
         # TODO: Randomize password
-        password = 'fast_database'
+        password = "fast_database"
 
         try:
-            container = json.loads(docker('inspect', self.container_name))
-            available = container[0]['State']['Running']
+            container = json.loads(docker("inspect", self.container_name))
+            available = container[0]["State"]["Running"]
         except (LookupError, ValueError, subprocess.CalledProcessError):
             available = False
 
         if not available:
             # Delete the old container in case it's stopped
             try:
-                docker('rm', '-f', self.container_name)
+                docker("rm", "-f", self.container_name)
             except subprocess.CalledProcessError:
                 pass
 
             args = [
-                'run',
-                '--detach',
-                '--env', '{}={}'.format(self.PASSWORD_ENV_VAR, password),
+                "run",
+                "--detach",
+                "--env",
+                "{}={}".format(self.PASSWORD_ENV_VAR, password),
             ]
 
             # Add custom environment variables
             if self.CUSTOM_ENV:
                 for k, v in self.CUSTOM_ENV.items():
-                    args.extend(['--env', '{}={}'.format(k, v)])
+                    args.extend(["--env", "{}={}".format(k, v)])
 
-            args.extend([
-                '--tmpfs={}'.format(self.DATA_DIR),
-                '--publish', str(self.PORT),
-                '--name', self.container_name,
-                self.image,
-            ])
+            args.extend(
+                [
+                    "--tmpfs={}".format(self.DATA_DIR),
+                    "--publish",
+                    str(self.PORT),
+                    "--name",
+                    self.container_name,
+                    self.image,
+                ]
+            )
 
             docker(*args)
             # Give it time to start
@@ -97,44 +99,46 @@ class DatabaseProvider(object):
         0.0.0.0:49153
         0.0.0.0:49153\n:::49153
         """
-        host, port = docker(
-            'port', self.container_name, str(self.PORT)
-        ).splitlines()[0].split(':')
+        host, port = (
+            docker("port", self.container_name, str(self.PORT))
+            .splitlines()[0]
+            .split(":")
+        )
         port = int(port)
 
         return {
-            'ENGINE': engine,
-            'NAME': self.DATABASE,
-            'USER': self.USER,
-            'PASSWORD': password,
-            'HOST': host,
-            'PORT': port,
+            "ENGINE": engine,
+            "NAME": self.DATABASE,
+            "USER": self.USER,
+            "PASSWORD": password,
+            "HOST": host,
+            "PORT": port,
         }
 
 
 class PostgreSQL(DatabaseProvider):
     """Provide a PostgreSQL database via Docker."""
 
-    IMAGE = 'postgres'
+    IMAGE = "postgres"
     PORT = 5432
-    PASSWORD_ENV_VAR = 'POSTGRES_PASSWORD'
-    DATA_DIR = '/var/lib/postgresql/data'
-    ENGINE_MATCH = 'postgresql'
-    USER = 'postgres'
-    DATABASE = 'postgres'
+    PASSWORD_ENV_VAR = "POSTGRES_PASSWORD"
+    DATA_DIR = "/var/lib/postgresql/data"
+    ENGINE_MATCH = "postgresql"
+    USER = "postgres"
+    DATABASE = "postgres"
 
 
 class MySQL(DatabaseProvider):
     """Provide a MySQL database via Docker."""
 
-    IMAGE = 'mysql/mysql-server'
+    IMAGE = "mysql/mysql-server"
     PORT = 3306
-    PASSWORD_ENV_VAR = 'MYSQL_ROOT_PASSWORD'
+    PASSWORD_ENV_VAR = "MYSQL_ROOT_PASSWORD"
     CUSTOM_ENV = {"MYSQL_ROOT_HOST": "%"}
-    DATA_DIR = '/var/lib/mysql'
-    ENGINE_MATCH = 'mysql'
-    USER = 'root'
-    DATABASE = 'mysql'  # TODO: is this correct?
+    DATA_DIR = "/var/lib/mysql"
+    ENGINE_MATCH = "mysql"
+    USER = "root"
+    DATABASE = "mysql"  # TODO: is this correct?
 
 
 PROVIDERS = [
@@ -146,7 +150,7 @@ PROVIDERS = [
 ]
 
 
-def fast_test_database(databases, test_commands=('test',), version=None):
+def fast_test_database(databases, test_commands=("test",), version=None):
     """
     If running tests, start a database on a tmpfs and set it as the default
     connection.
@@ -156,7 +160,7 @@ def fast_test_database(databases, test_commands=('test',), version=None):
         # Not under test, leave connections alone
         return databases
 
-    engine = databases['default']['ENGINE']
+    engine = databases["default"]["ENGINE"]
 
     match = None
     for engine_match, provider in PROVIDERS:
@@ -168,10 +172,8 @@ def fast_test_database(databases, test_commands=('test',), version=None):
         return databases
 
     databases = copy(databases)
-    databases['default'] = match(version).provide(engine)
+    databases["default"] = match(version).provide(engine)
     return databases
 
 
-__all__ = (
-    'fast_test_database',
-)
+__all__ = ("fast_test_database",)

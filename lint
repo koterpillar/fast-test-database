@@ -1,0 +1,22 @@
+#!/bin/bash
+# shellcheck disable=SC2086
+
+set -euo pipefail
+
+ISORT_ARGS=--check
+BLACK_ARGS=--check
+if [ "${1-}" == "--format" ]
+then
+    ISORT_ARGS=
+    BLACK_ARGS=
+fi
+
+DIR=$(cd "$(dirname "$0")" && pwd)
+
+# shellcheck disable=SC2046
+shellcheck $(find "$DIR" -name '*.sh') $(grep -lER '^#!.+bash' "$DIR" 2>/dev/null)
+
+PYTHON="${DIR}/fast_test_database ${DIR}/test_app"
+
+poetry run isort $ISORT_ARGS $PYTHON
+poetry run black $BLACK_ARGS $PYTHON
