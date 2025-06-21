@@ -15,7 +15,7 @@ black = "^25.1.0"
 isort = "^6.0.1"
 mysqlclient = "^2.2.7"
 psycopg2 = "^2.9.10"
-pycodestyle = "^2.13.0"
+pycodestyle = "^2.14.0"
 
 [build-system]
 requires = ["poetry-core>=2.1.3"]
