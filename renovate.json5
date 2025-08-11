@@ -3,4 +3,10 @@
   extends: ["config:recommended", ":automergeMinor"],
   rangeStrategy: "bump",
   ignoreDeps: ["python"],
+  packageRules: [
+    {
+      matchPackageNames: ["node"],
+      versioning: "docker"
+    }
+  ]
 }
