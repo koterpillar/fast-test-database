@@ -6,7 +6,7 @@
   packageRules: [
     {
       matchPackageNames: ["node"],
-      versioning: "docker"
+      extractVersion: "^(?<version>v\\d+)",
     }
   ]
 }
