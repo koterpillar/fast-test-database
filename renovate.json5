@@ -5,7 +5,7 @@
   ignoreDeps: ["python"],
   packageRules: [
     {
-      matchPackageNames: ["node"],
+      matchPackageNames: ["actions/node-versions"],
       extractVersion: "^(?<version>v\\d+)",
     }
   ]
