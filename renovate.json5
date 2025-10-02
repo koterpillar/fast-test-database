@@ -3,10 +3,19 @@
   extends: ["config:recommended", ":automergeMinor"],
   rangeStrategy: "bump",
   ignoreDeps: ["python"],
+  customManagers: [
+    {
+      customType: "regex",
+      managerFilePatterns: [".github/workflows/build.yml"],
+      matchStrings: ["--package (?<depName>[^@]+)@(?<currentValue>\\d+)"],
+      datasourceTemplate: "npm",
+      extractVersionTemplate: "^(?<version>v\\d+)",
+    },
+  ],
   packageRules: [
     {
       matchPackageNames: ["actions/node-versions"],
       extractVersion: "^(?<version>v\\d+)",
-    }
-  ]
+    },
+  ],
 }
