@@ -51,6 +51,6 @@ jobs:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
           npx \
-            --package semantic-release-pypi@3 \
+            --package semantic-release-pypi@5 \
             --package semantic-release@24 \
             semantic-release
