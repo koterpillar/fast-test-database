@@ -6,7 +6,7 @@
   customManagers: [
     {
       customType: "regex",
-      managerFilePatterns: [".github/workflows/build.yml"],
+      managerFilePatterns: [".github/workflows/main.yml"],
       matchStrings: ["--package (?<depName>[^@]+)@(?<currentValue>\\d+)"],
       datasourceTemplate: "npm",
       extractVersionTemplate: "^(?<version>v\\d+)",
