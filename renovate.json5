@@ -9,7 +9,6 @@
       managerFilePatterns: [".github/workflows/*.y*ml"],
       matchStrings: ["--package (?<depName>@?[^@]+)@(?<currentValue>\\d+)"],
       datasourceTemplate: "npm",
-      extractVersionTemplate: "^(?<version>v\\d+).*",
     },
   ],
   packageRules: [
