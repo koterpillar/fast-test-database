@@ -9,13 +9,13 @@
       managerFilePatterns: [".github/workflows/*.y*ml"],
       matchStrings: ["--package (?<depName>@?[^@]+)@(?<currentValue>\\d+)"],
       datasourceTemplate: "npm",
-      extractVersionTemplate: "^(?<version>v\\d+)",
+      extractVersionTemplate: "^(?<version>v\\d+).*",
     },
   ],
   packageRules: [
     {
       matchPackageNames: ["actions/node-versions"],
-      extractVersion: "^(?<version>v\\d+)",
+      extractVersion: "^(?<version>v\\d+).*",
     },
   ],
 }
