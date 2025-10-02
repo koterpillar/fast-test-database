@@ -52,5 +52,5 @@ jobs:
         run: |
           npx \
             --package semantic-release-pypi@3 \
-            --package semantic-release@18 \
+            --package semantic-release@24 \
             semantic-release
