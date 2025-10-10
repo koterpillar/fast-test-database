@@ -14,7 +14,7 @@ Django = "^5.2.7"
 black = "^25.9.0"
 isort = "^6.1.0"
 mysqlclient = "^2.2.7"
-psycopg2 = "^2.9.10"
+psycopg2 = "^2.9.11"
 pycodestyle = "^2.14.0"
 
 [build-system]
