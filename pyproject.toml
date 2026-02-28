@@ -12,7 +12,7 @@ Django = "^6.0.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^26.1.0"
-isort = "^8.0.0"
+isort = "^8.0.1"
 mysqlclient = "^2.2.8"
 psycopg2 = "^2.9.11"
 pycodestyle = "^2.14.0"
