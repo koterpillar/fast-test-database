@@ -11,7 +11,7 @@ python = "^3.12"
 Django = "^6.0.3"
 
 [tool.poetry.group.dev.dependencies]
-black = "^26.1.0"
+black = "^26.3.0"
 isort = "^8.0.1"
 mysqlclient = "^2.2.8"
 psycopg2 = "^2.9.11"
