@@ -38,7 +38,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
@@ -52,5 +52,5 @@ jobs:
         run: |
           npx \
             --package semantic-release-pypi@5 \
-            --package semantic-release@25 \
+            --package semantic-release@26 \
             semantic-release
